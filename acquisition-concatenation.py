@@ -1,7 +1,11 @@
-# urna.py
+# acquisition-concatenation.py
 #!usr/bin/env python27
 import csv
-import scipy as sc
+"""Script to help Urna with tedious work.
+
+   Author:  Douglass Murray
+   Date:  2016-11-14
+"""
 
 # Notes
  # First match rows with same 2nd column entites
@@ -17,51 +21,44 @@ import scipy as sc
     # print("you entered", picked_file)
     # return picked_file
 
+# Simple finder helper function
+def matched_entity_finder(data_list):
+    """Looks at csv data and finds all entites that have the same company name.
+
+        Args:
+            data_list: list structured as [company, PICK, attribute1, ...]
+        Returns:
+            matched_items: list with the indexes of the same company attribute
+    """
+    matched_items = []
+    check_element = data_list[0][1]
+    for i, element in enumerate(data_list):
+        for j, sub_element in enumerate(element):
+            if sub_element == check_element:
+                print("%s in %s" % (check_element, element))
+                matched_items.append(i)
+            else:
+                # print("BOO: %s" % j)
+                None
+    print(matched_items)
+    return matched_items
+
 # to_be_picked = main_termina()
-to_be_picked = "urna_test"
+to_be_picked = "acquisition-concatenation-test"
 usr_picked_csv = "%s.csv" % to_be_picked
 
-data_list = []
+csv_file_data = []
 with open(usr_picked_csv, 'rb') as csvfile:
 	data = csv.reader(csvfile, delimiter=',')
 	for row in data:
-		data_list.append(row)
+		csv_file_data.append(row)
 
-# print data_list[1][1]
-print data_list
+# print(csv_file_data[1][1])
+print(csv_file_data)
 
-# match_me = []
-# for i, element in enumerate(data_list):
-    # match_me.append([i,element[1]])
+matching_entities = matched_entity_finder(csv_file_data)
 
-# print match_me
-# first_sub_match = match_me[0][1]
-# print first_sub_match
-total_checks = []
-for i, element in enumerate(data_list):
-    checker_value = data_list[i][1]
-    print "checker_value: %s" % checker_value
-    for j, sub_element in enumerate(data_list):
-        if sub_element[1] == checker_value:
-            print "FOUND, %s" % sub_element[5]
-            total_checks.append([j, sub_element[1], sub_element[5]])
-        else:
-            print "NOT FOUND"
-    else:
-        print "FAILED"
-
-print total_checks
 # To run in terminal session
 # if __name__ == '__main__':
     # from frontend.runner import *
 
-"""
-L = [a,b,c]
-a = [1,2,3,4]
-b = [5,2,6,7]
-c = [12,14,17,18]
-
-for i, element in L:
-    tester = element[1]
-    for j, element[1] == tester:
-"""
