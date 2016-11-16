@@ -26,7 +26,7 @@ def matched_entity_finder(data_list):
     """Looks at csv data and finds all entites that have the same company name.
 
         Args:
-            data_list: list structured as [company, PICK, attribute1, ...]
+            data_list: list structured as [blah, company, attribute1, ...]
         Returns:
             matched_items: list with the indexes of the same company attribute
     """
@@ -43,6 +43,30 @@ def matched_entity_finder(data_list):
     print(matched_items)
     return matched_items
 
+# Simple concatenate helper function
+def concatenate_matched_entities_attributes(matched_entities):
+    """Concatenates the 5th column attributes from the matched entities.
+
+        Args:
+            matched_entities: list with the indexes of matched entities
+        Returns:
+            element_to_add: string with concenated 5th column attributes
+    """
+    matched_attributes_to_add = []
+    for i, element in enumerate(matched_entities):
+        attribute_to_add = csv_file_data[element][5]
+        # print(csv_file_data[element][5])
+        matched_attributes_to_add.append(attribute_to_add)
+    else:
+        None
+    
+    element_to_add = str()
+    for i, element in enumerate(matched_attributes_to_add):
+        element_to_add += element + ' '
+    else:
+        None
+    return element_to_add
+
 # to_be_picked = main_termina()
 to_be_picked = "acquisition-concatenation-test"
 usr_picked_csv = "%s.csv" % to_be_picked
@@ -57,6 +81,9 @@ with open(usr_picked_csv, 'rb') as csvfile:
 print(csv_file_data)
 
 matching_entities = matched_entity_finder(csv_file_data)
+
+fifth_column_concat_strings = concatenate_matched_entities_attributes(matching_entities)
+print(fifth_column_concat_strings)
 
 # To run in terminal session
 # if __name__ == '__main__':
