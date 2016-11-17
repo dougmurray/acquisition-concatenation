@@ -85,6 +85,33 @@ matching_entities = matched_entity_finder(csv_file_data)
 fifth_column_concat_strings = concatenate_matched_entities_attributes(matching_entities)
 print(fifth_column_concat_strings)
 
+# Deletes 5th column elements in matched indexes and replaces with concat string
+# TODO: make into function
+for i, element in enumerate(matching_entities):
+    del csv_file_data[element][5]
+    csv_file_data[element].insert(5, fifth_column_concat_strings)
+
+print(csv_file_data)
+print("==============================")
+
+# TODO: Make into function
+# Look at first column, if # then delete all same with no number in 1st column
+# Check if # in first column, if not label to be removed
+for i, element in enumerate(matching_entities):
+    if csv_file_data[element][0].isdigit():
+        break
+    else:
+        # del csv_file_data[element]
+        csv_file_data[element] = "REMOVE ME!"
+
+# Remove labled entities
+for i, element in enumerate(csv_file_data):
+    if csv_file_data[i] == "REMOVE ME!":
+        del csv_file_data[i]
+
+
+print(csv_file_data)
+print(csv_file_data[2][0])
 # To run in terminal session
 # if __name__ == '__main__':
     # from frontend.runner import *
