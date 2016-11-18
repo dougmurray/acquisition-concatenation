@@ -1,5 +1,6 @@
-Fancy Pants Corp,PICK1,world,today,nine,PICK2,random
-Doug Pants Corp,dude,where,is,my,car,more
-WhateverCorp,PICK1,weirdos,people,sally,NOPICK,stuffs
-1234,PICK1,bite,pizza,all the,PICK2,only
-If Only,cars,drove,far,from,others,bears
+ID,pickme,random,random,concatme
+Fancy Pants Corp,PICK1,world,today,PICK2
+Doug Pants Corp,dude,where,is,my
+,PICK1,weirdos,people,NOPICK
+1234,PICK1,bite,pizza,PICK2
+If Only,cars,drove,far,from

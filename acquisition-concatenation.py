@@ -22,16 +22,17 @@ import csv
     # return picked_file
 
 # Simple finder helper function
-def matched_entity_finder(data_list):
+def matched_entity_finder(iterator, data_list):
     """Looks at csv data and finds all entites that have the same company name.
 
         Args:
+            iterator: tells which check element should be looked at first (for outside for loop)
             data_list: list structured as [blah, company, attribute1, ...]
         Returns:
             matched_items: list with the indexes of the same company attribute
     """
     matched_items = []
-    check_element = data_list[0][1]
+    check_element = data_list[iterator][1]
     for i, element in enumerate(data_list):
         for j, sub_element in enumerate(element):
             if sub_element == check_element:
@@ -54,8 +55,8 @@ def concatenate_matched_entities_attributes(matched_entities):
     """
     matched_attributes_to_add = []
     for i, element in enumerate(matched_entities):
-        attribute_to_add = csv_file_data[element][5]
-        # print(csv_file_data[element][5])
+        attribute_to_add = csv_file_data[element][4]
+        # print(csv_file_data[element][4])
         matched_attributes_to_add.append(attribute_to_add)
     else:
         None
@@ -68,6 +69,7 @@ def concatenate_matched_entities_attributes(matched_entities):
     return element_to_add
 
 # to_be_picked = main_termina()
+# to_be_picked = "/home/doug/Desktop/real-test"  # Real test data
 to_be_picked = "acquisition-concatenation-test"
 usr_picked_csv = "%s.csv" % to_be_picked
 
@@ -80,19 +82,24 @@ with open(usr_picked_csv, 'rb') as csvfile:
 # print(csv_file_data[1][1])
 print(csv_file_data)
 
-matching_entities = matched_entity_finder(csv_file_data)
+matching_entities = []
+for i, element in enumerate(csv_file_data):
+    matching_entities.append(matched_entity_finder(i,csv_file_data))
 
-fifth_column_concat_strings = concatenate_matched_entities_attributes(matching_entities)
-print(fifth_column_concat_strings)
+# matching_entities = matched_entity_finder(csv_file_data)
 
-# Deletes 5th column elements in matched indexes and replaces with concat string
+forth_column_concat_strings = concatenate_matched_entities_attributes(matching_entities)
+print(forth_column_concat_strings)
+
+# Deletes 4th column elements in matched indexes and replaces with concat string
 # TODO: make into function
 for i, element in enumerate(matching_entities):
-    del csv_file_data[element][5]
-    csv_file_data[element].insert(5, fifth_column_concat_strings)
+    del csv_file_data[element][4]
+    csv_file_data[element].insert(4, forth_column_concat_strings)
 
-print(csv_file_data)
+print("BEFORE")
 print("==============================")
+print(csv_file_data)
 
 # TODO: Make into function
 # Look at first column, if # then delete all same with no number in 1st column
@@ -109,9 +116,17 @@ for i, element in enumerate(csv_file_data):
     if csv_file_data[i] == "REMOVE ME!":
         del csv_file_data[i]
 
-
+print("AFTER")
+print("==============================")
 print(csv_file_data)
 print(csv_file_data[2][0])
+
+# Try to write a new csv file from built list
+with open('/home/doug/Desktop/newcsv.csv', 'wb') as newcsv:
+    # newcsv = open('/home/doug/Desktop/newcsv.csv', 'wb')
+    wr = csv.writer(newcsv, dialect='excel')
+    wr.writerows(csv_file_data)
+
 # To run in terminal session
 # if __name__ == '__main__':
     # from frontend.runner import *
